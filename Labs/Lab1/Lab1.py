@@ -64,11 +64,17 @@ def main():
     for i in range(5):
         grammar.generateString()
     fa = grammar.toFiniteAutomaton()
-    print(fa.stringBelongToLanguage("a"))
-    print(fa.stringBelongToLanguage("aab"))
-    print(fa.stringBelongToLanguage("c"))
-    print(fa.stringBelongToLanguage("aac"))
-    print(fa.stringBelongToLanguage("abac"))
+    print("\nFinite Automaton:")
+    print(fa.Q)
+    print(fa.sigma)
+    print(fa.delta)
+    print(fa.q0)
+    print(fa.F)
+    print("\na: ", fa.stringBelongToLanguage("a"))
+    print("aab: ", fa.stringBelongToLanguage("aab"))
+    print("c: ", fa.stringBelongToLanguage("c"))
+    print("aac: ", fa.stringBelongToLanguage("aac"))
+    print("abac: ", fa.stringBelongToLanguage("abac"))
 
 if __name__ == "__main__":
     main()

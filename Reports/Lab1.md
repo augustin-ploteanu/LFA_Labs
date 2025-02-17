@@ -73,7 +73,7 @@ def stringBelongToLanguage(self, input_string):
 ## Conclusions / Screenshots / Results
 
 Output of generating 5 strings and checking if the following strings: a, aab, c, aac, abac; can be obtained via the state transition from the finite automaton:
-'''
+```
 ababac
 aac
 aabbbbbabababbaaabac
@@ -85,7 +85,7 @@ False
 False
 True
 True
-'''
+```
 
 In conclusion, have been developed skills in using grammar and finite automaton in the Python programming language.
 
