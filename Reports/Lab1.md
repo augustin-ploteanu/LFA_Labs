@@ -74,17 +74,24 @@ def stringBelongToLanguage(self, input_string):
 
 Output of generating 5 strings and checking if the following strings: a, aab, c, aac, abac; can be obtained via the state transition from the finite automaton:
 ```
-ababac
-aac
-aabbbbbabababbaaabac
-aac
-ababaaabac
+aabbbaaaac
+aaaabbaaabbabbac
+aaaaabac
+abaaabaaaabbaaabbbac
+abaaaac
 
-False
-False
-False
-True
-True
+Finite Automaton:
+{'S', 'C', 'q_accept', 'B'}
+{'b', 'c', 'a'}
+{('S', 'a'): 'B', ('B', 'a'): 'C', ('B', 'b'): 'B', ('C', 'b'): 'B', ('C', 'c'): 'q_accept', ('C', 'a'): 'S'}
+S
+{'q_accept'}
+
+a:  False
+aab:  False
+c:  False
+aac:  True
+abac:  True
 ```
 
 In conclusion, have been developed skills in using grammar and finite automaton in the Python programming language.
