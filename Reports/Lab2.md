@@ -1,4 +1,4 @@
-# Intro to formal languages. Regular grammars. Finite Automata.
+# Determinism in Finite Automata. Conversion from NDFA 2 DFA. Chomsky Hierarchy.
 
 ### Course: Formal Languages & Finite Automata
 ### Author: Augustin Ploteanu
