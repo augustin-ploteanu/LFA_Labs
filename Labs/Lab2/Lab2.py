@@ -87,9 +87,11 @@ class FiniteAutomaton:
         state_map = {frozenset([self.q0]): 'A'}
         unprocessed_states = [frozenset([self.q0])]
 
+        print("DFA States:")
         while unprocessed_states:
             current_state = unprocessed_states.pop()
             current_state_name = state_map[current_state]
+            print(f"{sorted(current_state)} : {current_state_name}")
 
             for symbol in self.sigma:
                 next_state = set()

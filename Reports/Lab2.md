@@ -28,7 +28,7 @@ The conversion between finite automata and regular grammars establishes the equi
 
 The classify function determines the classification of a given grammar based on the Chomsky hierarchy, which consists of regular (Type 3), context-free (Type 2), context-sensitive (Type 1), and recursively enumerable (Type 0) grammars. It initializes three boolean flags—is_regular, is_context_free, and is_context_sensitive—all set to True, then iterates through the production rules of the grammar. To check if the grammar is regular (Type 3), it verifies that each left-hand side (LHS) consists of a single non-terminal and that the right-hand side (RHS) either contains only terminals or follows a right-linear form (one terminal followed by a non-terminal). If any rule violates this structure, the grammar is not regular. Next, it checks for context-free grammar (Type 2) by ensuring that every LHS consists of a single non-terminal; otherwise, it is not context-free. For context-sensitive grammar (Type 1), it confirms that the LHS is not longer than the RHS in every rule, since context-sensitive grammars must be non-contracting. Finally, the function classifies the grammar based on the most restrictive type it satisfies, returning its corresponding label according to the Chomsky hierarchy.
 
-```
+```python
 def classify(self):
         is_regular = True
         is_context_free = True
@@ -58,7 +58,7 @@ def classify(self):
 
 The isDeterministic function checks whether a finite automaton is deterministic (DFA) or non-deterministic (NDFA) based on its transition function. It iterates through the automaton’s transition dictionary, where each state maps to a set of transitions for input symbols. For each state, it examines whether multiple transitions exist for the same input symbol. If any symbol leads to more than one possible next state, the function returns False, indicating that the automaton is non-deterministic. If no such cases are found, it returns True, confirming that the automaton is deterministic.
 
-```
+```python
 def isDeterministic(self):
         for state, transitions in self.delta.items():
             for symbol in transitions:
@@ -69,7 +69,7 @@ def isDeterministic(self):
 
 The convertToGrammar function transforms a finite automaton into an equivalent regular grammar, demonstrating the equivalence between regular languages and finite-state machines. It first assigns each state in the automaton a corresponding non-terminal symbol using uppercase letters (A, B, C, ...). The function then iterates through the transition function, converting each state transition. If a state has multiple transitions, the rules are appended to the respective non-terminal's production list. Additionally, for final states, an ε-production (A → ε) is added to indicate that the automaton can accept a string at that point. The function returns the set of non-terminals, the set of terminals (alphabet), the constructed production rules, and the start symbol.
 
-```
+```python
 def convertToGrammar(self):
         state_mapping = {state: chr(65 + i) for i, state in enumerate(sorted(self.Q))}
         grammar_productions = {}
@@ -94,7 +94,7 @@ def convertToGrammar(self):
 
 The ndfaToDfa function converts a non-deterministic finite automaton (NDFA) into an equivalent deterministic finite automaton (DFA) using the subset construction (powerset) algorithm. It begins by treating the initial state of the NDFA as a set of states (a singleton set containing the start state) and assigns it the first DFA state (A). It maintains a mapping between these sets of NDFA states and newly created DFA states. The function then processes each unprocessed DFA state, iterating through the input alphabet to compute the set of reachable NDFA states for each symbol. If a new set of states is encountered, it is assigned a new DFA state label and added to the processing queue. The function also determines final states in the DFA by checking if any set of states contains an original NDFA final state. The resulting DFA consists of a set of states, a transition table mapping deterministic transitions, and a set of final states.
 
-```
+```python
 def ndfaToDfa(self):
         dfa_states = [frozenset([self.q0])]
         dfa_transitions = {}
@@ -103,9 +103,11 @@ def ndfaToDfa(self):
         state_map = {frozenset([self.q0]): 'A'}
         unprocessed_states = [frozenset([self.q0])]
 
+        print("DFA States:")
         while unprocessed_states:
             current_state = unprocessed_states.pop()
             current_state_name = state_map[current_state]
+            print(f"{sorted(current_state)} : {current_state_name}")
 
             for symbol in self.sigma:
                 next_state = set()
@@ -138,8 +140,12 @@ The FA is deterministic: False
 Non-terminals: {'A', 'C', 'B'}
 Grammar rules: {'A': ['aA', 'aB', 'bA'], 'B': ['bC', 'aA'], 'C': ['bC', 'ε']}
 Type 3 (Regular)
+DFA States:
+['q0'] : A
+['q0', 'q1'] : B
+['q0', 'q2'] : C
 States: ['A', 'B', 'C']
-Transitions: {'A': {'b': 'A', 'a': 'B'}, 'B': {'b': 'C', 'a': 'B'}, 'C': {'b': 'C', 'a': 'B'}}
+Transitions: {'A': {'a': 'B', 'b': 'A'}, 'B': {'a': 'B', 'b': 'C'}, 'C': {'a': 'B', 'b': 'C'}}
 Final States: {'C'}
 ```
 
