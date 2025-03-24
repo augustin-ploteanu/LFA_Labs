@@ -55,22 +55,12 @@ The lexer checks for consecutive operators by comparing the current token type w
 
 ```python
 def lexer(code):
-    tokens = []
-    previous_kind = None
-    errors = []
-    i = 0 
-
     while i < len(code):
         match = re.match(TOKEN_REGEX, code[i:])
         if not match:
             errors.append(f"Unexpected character: {code[i]} at position {i}")
             i += 1
             continue
-
-        kind = match.lastgroup
-        value = match.group()
-        start_index = i
-        end_index = i + len(value)
         
         if kind == 'FLOAT':
             value = float(value)
@@ -91,8 +81,7 @@ def lexer(code):
             continue
         
         if previous_kind in OPERATORS and kind in OPERATORS:
-            errors.append(f"Consecutive operator error: '{tokens[-1][1]}{value}' at position {start_index}")
-        
+            errors.append(f"Consecutive operator error: '{tokens[-1][1]}{value}' at position {start_index}")      
         if kind in FUNCTIONS:
             if i + len(value) >= len(code) or code[end_index] != '(':
                 errors.append(f"Missing '(' after '{value}' at position {start_index}")
@@ -100,17 +89,6 @@ def lexer(code):
                 closing_index = code.find(')', end_index)
                 if closing_index == -1 or closing_index == end_index + 1:
                     errors.append(f"Empty parentheses or missing ')' after '{value}' at position {start_index}")
-        
-        tokens.append((kind, value))
-        previous_kind = kind
-        i = end_index
-
-    for token in tokens:
-        print(token)
-    
-    if errors:
-        for error in errors:
-            print(error)
 ```
 
 ## Conclusions / Screenshots / Results
