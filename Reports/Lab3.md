@@ -24,20 +24,11 @@ The TOKEN_SPECIFICATION list defines the various tokens that the lexer will reco
 TOKEN_SPECIFICATION = [
     ('FLOAT', r'\d+\.\d+'),
     ('NUMBER', r'\d+'),
+    ('CONSTANT', r'\b(pi|e)\b'),
     ('TRIG', r'\b(sin|cos|tan|csc|sec|cot)\b'),
-    ('SQRT', r'\bsqrt\b'),
-    ('LOG', r'\blog\b'),
-    ('LN', r'\bln\b'),
-    ('PI', r'\bpi\b'),
-    ('E', r'\be\b'),
+    ('LOG', r'\b(log|ln|sqrt)\b'),
+    ('OPERATOR', r'[\+\-\*/\^=]'),
     ('ABS', r'\|'),
-    ('POWER', r'\^'),
-    ('IDENTIFIER', r'[a-zA-Z_]\w*'),
-    ('ASSIGN', r'='),
-    ('PLUS', r'\+'),
-    ('MINUS', r'-'),
-    ('TIMES', r'\*'),
-    ('DIVIDE', r'/'),
     ('LPAREN', r'\('),
     ('RPAREN', r'\)'),
     ('COMMA', r','),
@@ -51,8 +42,8 @@ This section creates a combined regular expression pattern TOKEN_REGEX using all
 
 ```python
 TOKEN_REGEX = '|'.join(f'(?P<{name}>{pattern})' for name, pattern in TOKEN_SPECIFICATION)
-OPERATORS = {'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER'}
-FUNCTIONS = {'TRIG', 'SQRT', 'LOG', 'LN'}
+OPERATORS = {'OPERATOR'}
+FUNCTIONS = {'TRIG', 'LOG'}
 ```
 
 The lexer() function is responsible for processing the input code and categorizing it into tokens. It initializes an empty list tokens to store valid tokens, an empty list errors to collect error messages, and a variable previous_kind to track the last recognized token type.
@@ -84,10 +75,8 @@ def lexer(code):
             value = float(value)
         elif kind == 'NUMBER':
             value = int(value)
-        elif kind == 'PI':
-            value = 3.141592653589793
-        elif kind == 'E':
-            value = 2.718281828459045
+        elif kind == 'CONSTANT':
+            value = 3.141592653589793 if value == 'pi' else 2.718281828459045
         elif kind == 'COMMA':
             errors.append(f"Invalid use of ','. Use '.' for floating-point numbers at position {start_index}")
             i = end_index
@@ -114,6 +103,13 @@ def lexer(code):
         tokens.append((kind, value))
         previous_kind = kind
         i = end_index
+
+    for token in tokens:
+        print(token)
+    
+    if errors:
+        for error in errors:
+            print(error)
 ```
 
 ## Conclusions / Screenshots / Results

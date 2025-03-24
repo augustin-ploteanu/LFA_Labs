@@ -3,20 +3,11 @@ import re
 TOKEN_SPECIFICATION = [
     ('FLOAT', r'\d+\.\d+'),
     ('NUMBER', r'\d+'),
+    ('CONSTANT', r'\b(pi|e)\b'),
     ('TRIG', r'\b(sin|cos|tan|csc|sec|cot)\b'),
-    ('SQRT', r'\bsqrt\b'),
-    ('LOG', r'\blog\b'),
-    ('LN', r'\bln\b'),
-    ('PI', r'\bpi\b'),
-    ('E', r'\be\b'),
+    ('LOG', r'\b(log|ln|sqrt)\b'),
+    ('OPERATOR', r'[\+\-\*/\^=]'),
     ('ABS', r'\|'),
-    ('POWER', r'\^'),
-    ('IDENTIFIER', r'[a-zA-Z_]\w*'),
-    ('ASSIGN', r'='),
-    ('PLUS', r'\+'),
-    ('MINUS', r'-'),
-    ('TIMES', r'\*'),
-    ('DIVIDE', r'/'),
     ('LPAREN', r'\('),
     ('RPAREN', r'\)'),
     ('COMMA', r','),
@@ -26,8 +17,8 @@ TOKEN_SPECIFICATION = [
 ]
 
 TOKEN_REGEX = '|'.join(f'(?P<{name}>{pattern})' for name, pattern in TOKEN_SPECIFICATION)
-OPERATORS = {'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER'}
-FUNCTIONS = {'TRIG', 'SQRT', 'LOG', 'LN'}
+OPERATORS = {'OPERATOR'}
+FUNCTIONS = {'TRIG', 'LOG'}
 
 def lexer(code):
     tokens = []
@@ -51,10 +42,8 @@ def lexer(code):
             value = float(value)
         elif kind == 'NUMBER':
             value = int(value)
-        elif kind == 'PI':
-            value = 3.141592653589793
-        elif kind == 'E':
-            value = 2.718281828459045
+        elif kind == 'CONSTANT':
+            value = 3.141592653589793 if value == 'pi' else 2.718281828459045
         elif kind == 'COMMA':
             errors.append(f"Invalid use of ','. Use '.' for floating-point numbers at position {start_index}")
             i = end_index
