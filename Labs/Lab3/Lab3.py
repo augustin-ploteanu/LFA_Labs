@@ -6,6 +6,7 @@ TOKEN_SPECIFICATION = [
     ('CONSTANT', r'\b(pi|e)\b'),
     ('TRIG', r'\b(sin|cos|tan|csc|sec|cot)\b'),
     ('LOG', r'\b(log|ln|sqrt)\b'),
+    ('IDENTIFIER', r'[a-zA-Z_]\w*'),
     ('OPERATOR', r'[\+\-\*/\^=]'),
     ('ABS', r'\|'),
     ('LPAREN', r'\('),
