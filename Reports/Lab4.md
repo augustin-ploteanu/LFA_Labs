@@ -1,11 +1,11 @@
-# Lexer & Scanner
+# Regular expressions
 
 ### Course: Formal Languages & Finite Automata
 ### Author: Augustin Ploteanu
 
 ----
 
-## Regular expressions
+## Theory
 Regular expressions (regex) are symbolic patterns used to describe sets of strings. They provide a concise and flexible way to search, match, and manipulate text based on specific patterns. At their core, regular expressions are built from literal characters combined with metacharacters such as * (zero or more), + (one or more), ? (zero or one), and | (alternation). Parentheses () are used to group expressions, while character classes like [a-z] define sets of possible characters. These components form a powerful syntax for defining complex text-matching rules in programming, search utilities, and data validation.
 
 The idea of regular expressions comes from computer science, where they are used to describe patterns in text using a set of rules. These patterns match what are called "regular languages," which can be processed by simple machines called finite automata. This means regular expressions can be used to check and find patterns quickly. In practice, many programming languages and tools use regular expressions to search and manage text. Some versions also add extra features like checking ahead in the text or remembering parts of a match, which makes them more powerful but sometimes more complex.
